@@ -2,6 +2,7 @@ using CesarDev.Api.Configuration;
 using CesarDev.Business.Interfaces;
 using CesarDev.Data.Context;
 using CesarDev.Data.Repository;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +19,11 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 builder.Services.AddDbContext<DevDbContext>(options =>
     options.UseSqlServer(connectionString));
+
+builder.Services.Configure<ApiBehaviorOptions>(options =>
+{
+    options.SuppressModelStateInvalidFilter = true;
+});
 
 DependencyInjectionConfig.ResolveDependencies(builder.Services);
 
