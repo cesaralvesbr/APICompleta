@@ -1,15 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel;
+﻿using CesarDev.Api.Extensions;
+using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace CesarDev.Api.ViewModels
 {
-    public class ProdutoViewModel
+    // Binder personalizado para envio de IFormFile e ViewModel dentro de um FormData compatível com .NET Core 3.1 ou superior (system.text.json)
+    [ModelBinder(BinderType = typeof(ProdutoModelBinder))]
+    public class ProdutoImagemViewModel
     {
         [Key]
         public Guid Id { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
+
         public Guid FornecedorId { get; set; }
 
         [Required(ErrorMessage = "O campo {0} é obrigatório")]
@@ -21,8 +25,8 @@ namespace CesarDev.Api.ViewModels
         public string Descricao { get; set; }
 
         // Evita o erro de conversão de string vazia para IFormFile
-        //[JsonIgnore]
-        public string ImagemUpload { get; set; }
+        [JsonIgnore]
+        public IFormFile ImagemUpload { get; set; }
 
         public string Imagem { get; set; }
 
