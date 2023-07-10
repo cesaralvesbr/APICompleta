@@ -17,6 +17,7 @@ builder.Services.AddSwaggerGen();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
      throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
+IdentityConfiguration.AddIdentityConfiguration(builder.Services, connectionString);
 builder.Services.AddDbContext<DevDbContext>(options =>
     options.UseSqlServer(connectionString));
 
