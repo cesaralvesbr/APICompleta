@@ -3,6 +3,7 @@ using CesarDev.Api.Extensions;
 using CesarDev.Api.ViewModels;
 using CesarDev.Business.Interfaces;
 using CesarDev.Business.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CesarDev.Api.Controllers

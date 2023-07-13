@@ -17,7 +17,7 @@ builder.Services.AddSwaggerGen();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
      throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
-IdentityConfiguration.AddIdentityConfiguration(builder.Services, connectionString);
+IdentityConfiguration.AddIdentityConfiguration(builder.Services, builder.Configuration, connectionString);
 builder.Services.AddDbContext<DevDbContext>(options =>
     options.UseSqlServer(connectionString));
 
@@ -36,13 +36,13 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
+    app.UseSwagger();    
     app.UseSwaggerUI();
-    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Fornecedores v1"));
 }
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
