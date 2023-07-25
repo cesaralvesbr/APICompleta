@@ -38,7 +38,7 @@ namespace CesarDev.Api.ViewModels
     {
         public string AccessToken { get; set; }
         public double ExpiresIn { get; set; }
-        public UserTokenViewModel UserToken { get; set; }
+        public UserTokenViewModel User { get; set; }
     }
 
     public class ClaimViewModel
