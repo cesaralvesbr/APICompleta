@@ -31,13 +31,40 @@ DependencyInjectionConfig.ResolveDependencies(builder.Services);
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Development",
+        builder =>
+            builder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+
+
+    options.AddPolicy("Production",
+        builder =>
+            builder
+                .WithMethods("GET")
+                .WithOrigins("http://ADEFINIR")
+                .SetIsOriginAllowedToAllowWildcardSubdomains()
+                //.WithHeaders(HeaderNames.ContentType, "x-custom-header")
+                .AllowAnyHeader());
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();    
+    app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors("Development");
+    app.UseDeveloperExceptionPage();
+}
+else
+{
+    app.UseCors("Production");
+    app.UseHsts();
 }
 
 app.UseHttpsRedirection();
