@@ -15,8 +15,8 @@ namespace CesarDev.Api.Controllers
         private readonly IProdutoService _produtoService;
         private readonly IProdutoRepository _produtoRepository;
 
-        public ProdutosController(IMapper mapper, IProdutoService produtoService, IProdutoRepository produtoRepository, INotificador notificador)
-            : base(notificador)
+        public ProdutosController(IMapper mapper, IProdutoService produtoService, IProdutoRepository produtoRepository, INotificador notificador, IUser user)
+            : base(notificador, user)
         {
             _mapper = mapper;
             _produtoService = produtoService;

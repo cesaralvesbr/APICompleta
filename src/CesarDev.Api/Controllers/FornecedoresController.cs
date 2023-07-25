@@ -20,9 +20,10 @@ namespace CesarDev.Api.Controllers
         public FornecedoresController(
             IMapper mapper,
             INotificador notificador,
+            IUser user,
             IFornecedorService fornecedorService,
             IFornecedorRepository fornecedorRepository,
-            IEnderecoRepositoy enderecoRepositoy) : base(notificador)
+            IEnderecoRepositoy enderecoRepositoy) : base(notificador, user)
         {
             _mapper = mapper;
             _fornecedorService = fornecedorService;

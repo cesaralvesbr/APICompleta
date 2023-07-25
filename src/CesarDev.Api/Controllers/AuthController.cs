@@ -20,10 +20,10 @@ namespace CesarDev.Api.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly AppSettings _appSettings;
 
-        public AuthController(INotificador notificador,
+        public AuthController(INotificador notificador, IUser user,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
-            IOptions<AppSettings> appSettings) : base(notificador)
+            IOptions<AppSettings> appSettings) : base(notificador, user)
         {
             _signInManager = signInManager;
             _userManager = userManager;

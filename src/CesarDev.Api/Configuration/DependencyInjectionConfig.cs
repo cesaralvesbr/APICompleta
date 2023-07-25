@@ -1,4 +1,5 @@
-﻿using CesarDev.Business.Interfaces;
+﻿using CesarDev.Api.Extensions;
+using CesarDev.Business.Interfaces;
 using CesarDev.Business.Notificacoes;
 using CesarDev.Business.Services;
 using CesarDev.Data.Context;
@@ -19,6 +20,8 @@ namespace CesarDev.Api.Configuration
             services.AddScoped<IFornecedorService, FornecedorService>();
             services.AddScoped<IProdutoService, ProdutoService>();
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<IUser, AspNetUser>();
             return services;
         }
     }
