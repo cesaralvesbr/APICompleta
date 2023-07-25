@@ -52,7 +52,7 @@ namespace CesarDev.Api.Controllers
         [ClaimsAuthorize("Fornecedor","Adicionar")]
         [HttpPost]
         public async Task<ActionResult<FornecedorViewModel>> Adicionar(FornecedorViewModel fornecedorViewModel)
-        {
+        {          
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
             Fornecedor fornecedor = _mapper.Map<Fornecedor>(fornecedorViewModel);
