@@ -7,13 +7,6 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
      throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
@@ -21,35 +14,11 @@ IdentityConfiguration.AddIdentityConfiguration(builder.Services, builder.Configu
 builder.Services.AddDbContext<DevDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.Configure<ApiBehaviorOptions>(options =>
-{
-    options.SuppressModelStateInvalidFilter = true;
-});
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddApiConfig();
+builder.Services.AddSwaggerGen();
 
 DependencyInjectionConfig.ResolveDependencies(builder.Services);
-
-builder.Services.AddSwaggerGen();
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("Development",
-        builder =>
-            builder
-            .AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader());
-
-
-    options.AddPolicy("Production",
-        builder =>
-            builder
-                .WithMethods("GET")
-                .WithOrigins("http://ADEFINIR")
-                .SetIsOriginAllowedToAllowWildcardSubdomains()
-                //.WithHeaders(HeaderNames.ContentType, "x-custom-header")
-                .AllowAnyHeader());
-});
 
 var app = builder.Build();
 
