@@ -4,6 +4,8 @@ using CesarDev.Business.Notificacoes;
 using CesarDev.Business.Services;
 using CesarDev.Data.Context;
 using CesarDev.Data.Repository;
+using Microsoft.Extensions.Options;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace CesarDev.Api.Configuration
 {
@@ -22,6 +24,9 @@ namespace CesarDev.Api.Configuration
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddScoped<IUser, AspNetUser>();
+
+            services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
+
             return services;
         }
     }

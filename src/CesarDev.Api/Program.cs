@@ -3,6 +3,7 @@ using CesarDev.Business.Interfaces;
 using CesarDev.Data.Context;
 using CesarDev.Data.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,31 +17,17 @@ builder.Services.AddDbContext<DevDbContext>(options =>
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddApiConfig();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerConfig();
+
 
 DependencyInjectionConfig.ResolveDependencies(builder.Services);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-    app.UseCors("Development");
-    app.UseDeveloperExceptionPage();
-}
-else
-{
-    app.UseCors("Production");
-    app.UseHsts();
-}
+//Configuração
+app.UseApiConfig(app.Environment);
 
-app.UseHttpsRedirection();
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.MapControllers();
+var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+app.UseSwaggerConfig(apiVersionDescriptionProvider);
 
 app.Run();
