@@ -12,7 +12,8 @@ using System.Text;
 
 namespace CesarDev.Api.Controllers
 {
-    [Route("api")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}")]
     [ApiController]
     public class AuthController : MainController
     {
