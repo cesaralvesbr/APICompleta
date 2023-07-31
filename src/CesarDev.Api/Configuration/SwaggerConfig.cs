@@ -46,6 +46,7 @@ namespace CesarDev.Api.Configuration
         public static IApplicationBuilder UseSwaggerConfig(this IApplicationBuilder app, IApiVersionDescriptionProvider provider)
         {
             //app.UseMiddleware<SwaggerAuthorizedMiddleware>();
+
             app.UseSwagger();
             app.UseSwaggerUI(
                 options =>
@@ -55,6 +56,7 @@ namespace CesarDev.Api.Configuration
                         options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json", description.GroupName.ToUpperInvariant());
                     }
                 });
+            
             return app;
         }
     }

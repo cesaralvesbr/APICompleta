@@ -20,15 +20,17 @@ namespace CesarDev.Api.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly AppSettings _appSettings;
+        private readonly ILogger<AuthController> _logger;
 
         public AuthController(INotificador notificador, IUser user,
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
-            IOptions<AppSettings> appSettings) : base(notificador, user)
+            IOptions<AppSettings> appSettings, ILogger<AuthController> logger) : base(notificador, user)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _appSettings = appSettings.Value;
+            _logger = logger;
         }
 
         [HttpPost("nova-conta")]
@@ -64,7 +66,10 @@ namespace CesarDev.Api.Controllers
             var resultado = await _signInManager.PasswordSignInAsync(loginUser.Email, loginUser.Password, false, true);
 
             if (resultado.Succeeded)
+            {
+                _logger.LogInformation("Usuario "+ loginUser.Email +" logado com sucesso");
                 return CustomResponse(await GerarJwt(loginUser.Email));
+            }
 
             if (resultado.IsLockedOut)
             {
