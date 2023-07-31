@@ -18,7 +18,7 @@ builder.Services.AddDbContext<DevDbContext>(options =>
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddApiConfig();
 builder.Services.AddSwaggerConfig();
-
+builder.Services.AddLoggingConfig(builder.Configuration);
 
 DependencyInjectionConfig.ResolveDependencies(builder.Services);
 
@@ -29,5 +29,5 @@ app.UseApiConfig(app.Environment);
 
 var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
 app.UseSwaggerConfig(apiVersionDescriptionProvider);
-
+app.UseLoggingConfiguration();
 app.Run();
