@@ -1,4 +1,5 @@
 ﻿
+using CesarDev.Api.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CesarDev.Api.Configuration
@@ -64,12 +65,12 @@ namespace CesarDev.Api.Configuration
                 app.UseHsts();
             }
 
-            //app.UseMiddleware<ExceptionMiddleware>();
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            
             app.UseAuthentication();
             app.UseAuthorization();
 

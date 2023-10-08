@@ -1,4 +1,5 @@
 ﻿using CesarDev.Api.Extensions;
+using Elmah.Io.Client;
 
 namespace CesarDev.Api.Configuration
 {
@@ -6,6 +7,8 @@ namespace CesarDev.Api.Configuration
     {
         public static IServiceCollection AddLoggingConfig(this IServiceCollection services, IConfiguration configuration)
         {
+            services.Configure<ElmahIoOptions>(configuration.GetSection("ElmahIoCesarDev"));
+
             services.AddElmahIo(o =>
             {
                 o.ApiKey = "644c9c365d314cb4b5822e1732f46d27";
