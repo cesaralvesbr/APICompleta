@@ -1,8 +1,7 @@
 using CesarDev.Api.Configuration;
-using CesarDev.Business.Interfaces;
 using CesarDev.Data.Context;
-using CesarDev.Data.Repository;
-using Microsoft.AspNetCore.Mvc;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +18,8 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddApiConfig();
 builder.Services.AddSwaggerConfig();
 builder.Services.AddLoggingConfig(builder.Configuration);
+builder.Services.AddHealthChecks().AddSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), name:"BancoSQLL");
+builder.Services.AddHealthChecksUI();
 
 DependencyInjectionConfig.ResolveDependencies(builder.Services);
 
@@ -30,4 +31,13 @@ app.UseApiConfig(app.Environment);
 var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
 app.UseSwaggerConfig(apiVersionDescriptionProvider);
 app.UseLoggingConfiguration();
+app.UseHealthChecks("/api/hc",new HealthCheckOptions()
+{
+    Predicate = _ => true,
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
+app.UseHealthChecksUI(options =>
+{
+    options.UIPath = "/api/hc-ui";
+});
 app.Run();
